@@ -1,149 +1,225 @@
-<!doctype html>
-<html lang="nl" class="h-full bg-slate-50">
+<!DOCTYPE html>
+<html lang="nl">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Zinnen maken: werkbladgenerator</title>
+    <title>Zinnen Maken - NicoKlas</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
-        body { font-family: 'Inter', sans-serif; }
-        .word-box { border: 2px dashed #cbd5e1; min-height: 2.5rem; display: flex; align-items: center; justify-content: center; padding: 0.5rem; background: #f8fafc; border-radius: 6px; }
-        
-        .exercise-container {
+        @import url('https://fonts.googleapis.com/css2?family=Verdana:wght@400;700;900&display=swap');
+
+        body {
+            font-family: 'Verdana', sans-serif;
+            background-color: #fcfcfc;
+            color: #1a1a1a;
+            margin: 0;
+        }
+
+        .strak-input {
+            border: 1px solid #000;
+            border-radius: 0;
+            background-color: #fff;
+            padding: 0.5rem;
+            width: 100%;
+            font-family: 'Verdana', sans-serif;
+        }
+
+        input[type="range"] {
+            accent-color: #000;
+            cursor: pointer;
+        }
+
+        .woord-blok {
+            border-left: 3px solid #e5e7eb;
+            padding-left: 1rem;
+            margin-bottom: 2rem;
             break-inside: avoid;
             page-break-inside: avoid;
-            margin-bottom: 2rem;
+        }
+
+        #werkblad-container {
+            width: 21cm;
+            min-height: 29.7cm;
+            background: white;
+            padding: 3rem;
+            box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);
+            border: 1px solid #f3f4f6;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            margin: 0 auto;
         }
 
         @media print {
             .no-print { display: none !important; }
             body { background: white !important; padding: 0 !important; }
-            .print-container { box-shadow: none !important; border: none !important; width: 100% !important; max-width: none !important; padding: 0 !important; margin: 0 !important; }
-            .word-box { border: 1px solid #cbd5e1 !important; background: white !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
-            h1 { margin-top: 0; }
+            
+            #werkblad-container {
+                box-shadow: none !important;
+                border: none !important;
+                width: 100% !important;
+                max-width: none !important;
+                padding: 1cm 1.5cm !important;
+                margin: 0 !important;
+                display: block !important;
+            }
+
+            #worksheetContent {
+                padding-top: 1.5cm;
+            }
+
+            header {
+                margin-top: 0 !important;
+            }
+
+            main { background: white !important; padding: 0 !important; }
+            @page { 
+                size: A4; 
+                margin: 1cm 0;
+            }
         }
     </style>
 </head>
-<body class="h-full text-slate-800 flex flex-col">
+<body>
 
-<main class="container mx-auto px-4 py-8 max-w-5xl flex-grow">
-    <h1 class="no-print text-4xl font-extrabold text-slate-900 mb-8 text-center">Zinnen maken: werkbladgenerator</h1>
+    <div class="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-4 gap-0 min-h-screen">
+        
+        <aside class="md:col-span-1 no-print p-8 bg-[#fcfcfc] border-r border-gray-100 flex flex-col h-auto">
+            <h1 class="text-xs font-black uppercase tracking-[0.2em] mb-6 text-gray-400">CONFIGURATIE</h1>
+            
+            <div class="space-y-6">
+                <div>
+                    <label class="block text-xs font-bold uppercase mb-2 text-black">Moeilijkheid</label>
+                    <select id="difficulty" class="strak-input text-sm">
+                        <option value="makkelijk">Makkelijk</option>
+                        <option value="gemiddeld" selected>Gemiddeld</option>
+                        <option value="moeilijk">Moeilijk</option>
+                    </select>
+                    <div class="mt-2 text-[10px] text-gray-500 space-y-1">
+                        <p>• Niveau 1: 3 tot 5 woorden</p>
+                        <p>• Niveau 2: 6 tot 8 woorden</p>
+                        <p>• Niveau 3: 9+ woorden</p>
+                    </div>
+                </div>
 
-    <div class="no-print bg-white rounded-2xl shadow-xl p-8 mb-10 border border-slate-200">
-        <div class="flex items-center gap-3 mb-8">
-            <div class="p-2 bg-blue-600 rounded-lg text-white">
-                <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
-                </svg>
-            </div>
-            <h2 class="text-2xl font-bold text-slate-800">werkblad instellingen</h2>
-        </div>
+                <div>
+                    <label class="block text-xs font-bold uppercase mb-2 text-black">Aantal zinnen</label>
+                    <input type="number" id="numExercises" value="10" min="1" max="50" class="strak-input text-sm">
+                </div>
 
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            <div>
-                <label class="block text-sm font-semibold text-slate-500 uppercase mb-2">moeilijkheidsgraad</label>
-                <select id="difficulty" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 outline-none focus:ring-2 focus:ring-blue-500">
-                    <option value="makkelijk">makkelijk (4-6 woorden)</option>
-                    <option value="gemiddeld" selected>gemiddeld (7-9 woorden)</option>
-                    <option value="moeilijk">moeilijk (10+ woorden)</option>
-                </select>
-            </div>
-            <div>
-                <label class="block text-sm font-semibold text-slate-500 uppercase mb-2">aantal oefeningen</label>
-                <select id="numExercises" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 outline-none focus:ring-2 focus:ring-blue-500">
-                    <option value="5">5 oefeningen</option>
-                    <option value="10" selected>10 oefeningen</option>
-                    <option value="15">15 oefeningen</option>
-                    <option value="20">20 oefeningen</option>
-                </select>
-            </div>
-            <div>
-                <label class="block text-sm font-semibold text-slate-500 uppercase mb-2">eerste woord hint</label>
-                <select id="capitalizeFirst" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 outline-none focus:ring-2 focus:ring-blue-500">
-                    <option value="false">kleine letter</option>
-                    <option value="true" selected>hoofdletter</option>
-                </select>
-            </div>
-            <div>
-                <label class="block text-sm font-semibold text-slate-500 uppercase mb-2">lettergrootte</label>
-                <select id="fontSize" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 outline-none focus:ring-2 focus:ring-blue-500">
-                    <option value="14">klein (14px)</option>
-                    <option value="18" selected>normaal (18px)</option>
-                    <option value="24">groot (24px)</option>
-                </select>
-            </div>
-            <div>
-                <label class="block text-sm font-semibold text-slate-500 uppercase mb-2">antwoordlijnen</label>
-                <select id="answerLines" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 outline-none focus:ring-2 focus:ring-blue-500">
-                    <option value="1" selected>1 lijn</option>
-                    <option value="2">2 lijnen</option>
-                </select>
-            </div>
-        </div>
+                <div>
+                    <label class="block text-xs font-bold uppercase mb-2 text-black">
+                        Lettergrootte: <span id="sizeVal">18</span>px
+                    </label>
+                    <input type="range" id="fontSize" min="12" max="30" value="18" class="w-full">
+                </div>
 
-        <div class="flex flex-col sm:flex-row gap-4 mt-10 pt-6 border-t border-slate-100">
-            <button onclick="generateWorksheet()" class="flex-1 bg-blue-600 hover:bg-blue-700 text-white px-8 py-4 rounded-xl font-bold text-lg transition-all shadow-lg">
-                Genereer Werkblad
-            </button>
-            <button onclick="window.print()" class="flex-1 bg-emerald-600 hover:bg-emerald-700 text-white px-8 py-4 rounded-xl font-bold text-lg transition-all shadow-lg">
-                Afdrukken / PDF
-            </button>
-        </div>
+                <div>
+                    <label class="block text-xs font-bold uppercase mb-2 text-black">
+                        Schrijfruimte: <span id="heightVal">30</span>px
+                    </label>
+                    <input type="range" id="lineHeight" min="30" max="100" step="5" value="30" class="w-full">
+                </div>
+
+                <div>
+                    <label class="block text-xs font-bold uppercase mb-2 text-black">Antwoordlijnen</label>
+                    <select id="answerLines" class="strak-input text-sm">
+                        <option value="1">1 lijn</option>
+                        <option value="2" selected>2 lijnen</option>
+                        <option value="3">3 lijnen</option>
+                    </select>
+                </div>
+
+                <div>
+                    <label class="block text-xs font-bold uppercase mb-2 text-black">Eerste woord hint</label>
+                    <select id="capitalizeFirst" class="strak-input text-sm">
+                        <option value="true">Hoofdletter tonen</option>
+                        <option value="false">Kleine letter tonen</option>
+                    </select>
+                </div>
+
+                <div class="space-y-4 pt-4">
+                    <button onclick="generateWorksheet()" class="bg-black text-white py-4 text-xs font-bold uppercase tracking-widest hover:bg-gray-800 w-full transition-colors">
+                        GENEREER ZINNEN
+                    </button>
+                    <button onclick="window.print()" class="border border-black bg-white py-4 text-xs font-bold uppercase tracking-widest hover:bg-gray-100 w-full transition-colors">
+                        PRINT WERKBLAD
+                    </button>
+                </div>
+            </div>
+
+            <footer class="mt-12">
+                <p class="text-[10px] text-gray-400 uppercase tracking-widest">CC BY-NC-SA 4.0 NicoKlas</p>
+            </footer>
+        </aside>
+
+        <main class="md:col-span-3 p-12 flex justify-center bg-gray-50 overflow-y-auto">
+            <div id="werkblad-container">
+                <header class="flex justify-between items-end border-b-2 border-black pb-4 mb-8">
+                    <div class="space-y-1">
+                        <h2 class="text-2xl font-black uppercase tracking-tighter">Zinnen maken</h2>
+                        <span id="levelBadge" class="inline-block bg-black text-white px-2 py-0.5 text-[9px] font-bold uppercase">Niveau 2</span>
+                    </div>
+                    <div class="text-[10px] font-bold uppercase text-gray-400 mb-1">
+                        Naam: ......................................................
+                    </div>
+                </header>
+
+                <div id="worksheetContent" class="flex-grow"></div>
+
+                <footer class="mt-8 text-right">
+                    <p class="text-[9px] text-gray-300 uppercase font-bold tracking-widest">CC BY-NC-SA 4.0 NicoKlas</p>
+                </footer>
+            </div>
+        </main>
     </div>
-
-    <div id="printArea" class="print-container bg-white rounded-2xl shadow-xl p-8 lg:p-16 border border-slate-100 min-h-[400px]">
-        <div id="worksheetContent">
-            <div class="flex flex-col items-center justify-center h-full text-slate-400 py-20 text-center no-print">
-                <p class="text-xl font-medium">Klik op 'Genereer Werkblad' om de oefeningen te tonen.</p>
-            </div>
-        </div>
-    </div>
-</main>
-
-<footer class="no-print w-full py-6 text-center text-slate-400 text-sm">
-    CC BY-NC-SA 4.0 NicoKlas
-</footer>
 
 <script>
 const sentenceDatabase = {
-    makkelijk: [
-        "de kat slaapt op de bank.", "ik eet een appel.", "de zon schijnt helder.", "mama kookt het eten.", "we gaan naar school.", "de hond rent snel.", "papa leest een boek.", "oma bakt koekjes.", "de bloemen zijn mooi.", "het regent buiten.", "ik drink milk.", "de vogel zingt luid.", "we spelen in de tuin.", "de auto is rood.", "opa wandelt in het park.", "de vis zwemt rond.", "ik teken een huis.", "de bal is groot.", "we eten samen.", "de maan schijnt 's nachts.", "ik poets mijn tanden.", "de trein rijdt snel.", "we kijken televisie.", "de taart smaakt lekker.", "ik ga naar bed.", "de fiets staat buiten.", "we zingen een liedje.", "de klas is stil.", "ik help mama.", "de deur gaat open.", "de baby huilt hard.", "ik was mijn handen.", "de koe geeft melk.", "we eten een boterham.", "de lamp brandt fel.", "ik kam mijn haar.", "de boot vaart weg.", "we lopen naar huis.", "de klok tikt luid.", "ik vind een steen.", "de muis is klein.", "we drinken warme thee.", "de sneeuw is wit.", "ik draag een jas.", "de wind waait hard.", "we bouwen een toren.", "de spin maakt een web.", "ik hoor een geluid.", "de appel valt neer.", "we zoeken een schat."
-    ],
-    gemiddeld: [
-        "mijn zusje speelt graag met haar poppen.", "de leraar vertelt een spannend verhaal.", "we maken samen een mooie tekening.", "de postbode brengt elke dag brieven.", "ik help opa in zijn grote tuin.", "de kinderen rennen vrolijk naar buiten.", "mama koopt verse groenten op de markt.", "we bouwen een hoog kasteel van zand.", "de brandweer redt de kat uit de boom.", "ik leer nieuwe woorden op school.", "de bakker maakt elke dag vers brood.", "we kijken naar de sterren in de lucht.", "papa repareert de kapotte fiets snel.", "de bibliotheek heeft veel interessante boeken.", "ik schrijf een brief aan mijn oma.", "de dierentuin heeft wilde dieren uit afrika.", "we planten bloemen in de schooltuin samen.", "de dokter helpt zieke mensen beter worden.", "ik spaar geld voor een nieuwe voetbal.", "de muziekleraar speelt piano in de klas.", "we maken een puzzel van duizend stukjes.", "papa kookt vandaag een heerlijke soep.", "de politieagent regelt het drukke verkeer.", "ik lees elke avond voor het slapen.", "de tuinman plant nieuwe bomen in het park.", "we bezoeken het museum met de hele klas.", "mama naait een mooie jurk voor mij.", "de slager verkoopt vers vlees aan klanten.", "ik voer de eenden brood bij de vijver.", "de schilder maakt het huis weer helemaal wit.", "de kapster knipt mijn haar heel voorzichtig.", "we verzamelen mooie schelpen op het strand.", "ik bouw een groot fort van kussens.", "de vuilnisman haalt de vuilniszakken op.", "we kopen nieuwe schoenen in de winkel.", "de tandarts controleert mijn tanden zorgvuldig.", "ik maak mijn huiswerk aan de keukentafel.", "de boer melkt zijn koeien elke ochtend.", "we spelen verstoppertje in het donkere bos.", "mama wast de vuile kleren in de machine.", "de postbode fietst door de hele buurt.", "ik geef water aan de dorstige planten.", "we eten warme pannenkoeken met stroop erop.", "de kat vangt een muis in de schuur.", "ik poets de ramen tot ze helder zijn.", "we luisteren naar mooie muziek op de radio.", "papa hangt de was buiten aan de lijn.", "de hond blaft luid naar de vreemde man.", "ik pak mijn warme trui uit de kast.", "we rijden met de bus naar de stad."
-    ],
-    moeilijk: [
-        "tijdens de vakantie bezochten we het prachtige kasteel.", "de wetenschapper ontdekte een nieuwe planeet in het zonnestelsel.", "mijn broer verzamelt postzegels uit verschillende landen wereldwijd.", "de archeologen vonden oude schatten in de mysterieuze piramide.", "we organiseren een groot feest voor opa's tachtigste verjaardag.", "de piloot vloog voorzichtig door de gevaarlijke storm heen.", "ik bereid me voor op de belangrijke wiskundetoets morgen.", "de fotografe maakte prachtige foto's van wilde dieren.", "we plantten verschillende groenten in onze eigen moestuin thuis.", "de dirigent leidde het orkest tijdens het klassieke concert.", "mijn tante werkt als verpleegster in het grote ziekenhuis.", "de computerprogrammeur ontwikkelt nieuwe spellen voor kinderen dagelijks.", "we wandelden door het dichte bos naar de waterval.", "de journalist schreef een artikel over milieuvervuiling vandaag.", "ik leerde gitaar spelen van mijn muziekleraar op school.", "de architect ontwierp een modern gebouw voor de stad.", "we bezoeken the tentoonstelling over dinosaurussen in het museum.", "de kok bereidde een heerlijk driegangenmenu voor de gasten.", "mijn vader repareert oude auto's in zijn werkplaats.", "de meteoroloog voorspelt regen voor het hele weekend helaas.", "we organiseren een sponsorloop voor het goede doel samen.", "de tandarts controleert twee keer per jaar mijn tanden.", "ik studeer hard voor mijn eindexamen nederlandse taal.", "de tuinarchitect ontwierp een prachtige tuin met veel bloemen.", "we maakten een documentaire over het leven van bijen.", "de elektricien installeerde nieuwe lampen in ons hele huis.", "mijn oma vertelt altijd interessante verhalen over vroeger.", "de dierenarts verzorgt zieke huisdieren in zijn praktijk.", "we experimenteerden met verschillende kleuren verf tijdens kunstles.", "de historicus bestudeerde oude documenten in het stadsarchief.", "de brandweercommandant coördineerde de reddingsoperatie bij het ongeval.", "ik verzamel verschillende mineralen en edelstenen uit de hele wereld.", "de biologieleraar toonde ons interessante experimenten met planten en dieren.", "we organiseerden een benefietconcert voor kinderen in ontwikkelingslanden overzee.", "de scheepskapitein navigeerde het grote vrachtschip door de stormachtige oceaan.", "mijn neef studeert geneeskunde aan de universiteit in amsterdam.", "de restaurateur herstelde het eeuwenoude schilderij met grote zorgvuldigheid.", "we onderzochten de effecten van klimaatverandering op de poolgebieden.", "de ambassadeur onderhandelde over belangrijke handelsakkoorden tussen beide landen.", "ik documenteerde de migratie van trekvogels gedurende het hele seizoen.", "de paleontoloog ontdekte fossielen van uitgestorven diersoorten in de rotsen.", "we ontwikkelden een innovatieve app voor het leren van vreemde talen.", "de choreograaf creëerde een prachtige dans voor het internationale ballet."
-    ]
+    makkelijk: ["de kat slaapt op de bank.", "ik eet een appel.", "de zon schijnt helder.", "mama kookt het eten.", "we gaan naar school.", "de hond rent snel.", "papa leest een boek.", "oma bakt koekjes.", "de bloemen zijn mooi.", "het regent buiten.", "ik drink melk.", "de vogel zingt luid.", "we spelen in de tuin.", "de auto is rood.", "opa wandelt in het park.", "de vis zwemt rond.", "ik teken een huis.", "de bal is groot.", "we eten samen.", "de maan schijnt 's nachts.", "ik poets mijn tanden.", "de trein rijdt snel.", "we kijken televisie.", "de taart smaakt lekker.", "ik ga naar bed.", "de fiets staat buiten.", "we zingen een liedje.", "de klas is stil.", "ik help mama.", "de deur gaat open.", "de baby huilt hard.", "ik was mijn handen.", "de koe geeft melk.", "we eten een boterham.", "de lamp brandt fel.", "ik kam mijn haar.", "de boot vaart weg.", "we lopen naar huis.", "de klok tikt luid.", "ik vind een steen.", "de muis is klein.", "we drinken warme thee.", "de sneeuw is wit.", "ik draag een jas.", "de wind waait hard.", "we bouwen een toren.", "de spin maakt een web.", "ik hoor een geluid.", "de appel valt neer.", "we zoeken een schat."],
+    gemiddeld: ["mijn zusje speelt graag met haar poppen.", "de leraar vertelt een spannend verhaal.", "we maken samen een mooie tekening.", "de postbode brengt elke dag brieven.", "ik help opa in zijn grote tuin.", "de kinderen rennen vrolijk naar buiten.", "mama koopt verse groenten op de markt.", "we bouwen een hoog kasteel van zand.", "de brandweer redt de kat uit de boom.", "ik leer nieuwe woorden op school.", "de bakker maakt elke dag vers brood.", "we kijken naar de sterren in de lucht.", "papa repareert de kapotte fiets snel.", "de bibliotheek heeft veel interessante boeken.", "ik schrijf een brief aan mijn oma.", "de dierentuin heeft wilde dieren uit afrika.", "we planten bloemen in de schooltuin samen.", "de dokter helpt zieke mensen beter worden.", "ik spaar geld voor een nieuwe voetbal.", "de muziekleraar speelt piano in de klas.", "we maken een puzzel van duizend stukjes.", "papa kookt vandaag een heerlijke soep.", "de politieagent regelt het drukke verkeer.", "ik lees elke avond voor het slapen.", "de tuinman plant nieuwe bomen in het park.", "we bezoeken het museum met de hele klas.", "mama naait een mooie jurk voor mij.", "de slager verkoopt vers vlees aan klanten.", "ik voer de eenden brood bij de vijver.", "de schilder maakt het huis weer helemaal wit.", "de kapster knipt mijn haar heel voorzichtig.", "we verzamelen mooie schelpen op het strand.", "ik bouw een groot fort van kussens.", "de vuilnisman haalt de vuilniszakken op.", "we kopen nieuwe schoenen in de winkel.", "de tandarts controleert mijn tanden zorgvuldig.", "ik maak mijn huiswerk aan de keukentafel.", "de boer melkt zijn koeien elke ochtend.", "we spelen verstoppertje in het donkere bos.", "mama wast de vuile kleren in de machine.", "de postbode fietst door de hele buurt.", "ik geef water aan de dorstige planten.", "we eten warme pannenkoeken met stroop erop.", "de kat vangt een muis in de schuur.", "ik poets de ramen tot ze helder zijn.", "we luisteren naar mooie muziek op de radio.", "papa hangt de was buiten aan de lijn.", "de hond blaft luid naar de vreemde man.", "ik pak mijn warme trui uit de kast.", "we rijden met de bus naar de stad."],
+    moeilijk: ["tijdens de vakantie bezochten we het prachtige kasteel.", "de wetenschapper ontdekte een nieuwe planeet in het zonnestelsel.", "mijn broer verzamelt postzegels uit verschillende landen wereldwijd.", "de archeologen vonden oude schatten in de mysterieuze piramide.", "we organiseren een groot feest voor opa's tachtigste verjaardag.", "de piloot vloog voorzichtig door de gevaarlijke storm heen.", "ik bereid me voor op de belangrijke wiskundetoets morgen.", "de fotografe maakte prachtige foto's van wilde dieren.", "we plantten verschillende groenten in onze eigen moestuin thuis.", "de dirigent leidde het orkest tijdens het klassieke concert.", "mijn tante werkt als verpleegster in het grote ziekenhuis.", "de computerprogrammeur ontwikkelt nieuwe spellen voor kinderen dagelijks.", "we wandelden door het dichte bos naar de waterval.", "de journalist schreef een artikel over milieuvervuiling vandaag.", "ik leerde gitaar spelen van mijn muziekleraar op school.", "de architect ontwierp een modern gebouw voor de stad.", "we bezoeken de tentoonstelling over dinosaurussen in het museum.", "de kok bereidde een heerlijk driegangenmenu voor de gasten.", "mijn vader repareert oude auto's in zijn werkplaats.", "de meteoroloog voorspelt regen voor het hele weekend helaas.", "we organiseren een sponsorloop voor het goede doel samen.", "de tandarts controleert twee keer per jaar mijn tanden.", "ik studeer hard voor mijn eindexamen nederlandse taal.", "de tuinarchitect ontwierp een prachtige tuin met veel bloemen.", "we maakten een documentaire over het leven van bijen.", "de elektricien installeerde nieuwe lampen in ons hele huis.", "mijn oma vertelt altijd interessante verhalen over vroeger.", "de dierenarts verzorgt zieke huisdieren in zijn praktijk.", "we experimenteerden met verschillende kleuren verf tijdens kunstles.", "de historicus bestudeerde oude documenten in het stadsarchief.", "de brandweercommandant coördineerde de reddingsoperatie bij het ongeval.", "ik verzamel verschillende mineralen en edelstenen uit de hele wereld.", "de biologieleraar toonde ons interessante experimenten met planten en dieren.", "we organiseerden een benefietconcert voor kinderen in ontwikkelingslanden overzee.", "de scheepskapitein navigeerde het grote vrachtschip door de stormachtige oceaan.", "mijn neef studeer geneeskunde aan de universiteit in amsterdam.", "de restaurateur herstelde het eeuwenoude schilderij met grote zorgvuldigheid.", "we onderzochten de effecten van klimaatverandering op de poolgebieden.", "de ambassadeur onderhandelde over belangrijke handelsakkoorden tussen beide landen.", "ik documenteerde de migratie van trekvogels gedurende het hele seizoen.", "de paleontoloog ontdekte fossielen van uitgestorven diersoorten in de rotsen.", "we ontwikkelden een innovatieve app voor het leren van vreemde talen.", "de choreograaf creëerde een prachtige dans voor het internationale ballet."]
 };
 
 function shuffle(array) {
     return array.sort(() => Math.random() - 0.5);
 }
 
+function updateVisualsOnly() {
+    const fontSize = document.getElementById('fontSize').value;
+    const spacing = document.getElementById('lineHeight').value;
+    
+    document.querySelectorAll('.woord-blok').forEach(b => {
+        b.style.fontSize = fontSize + 'px';
+    });
+    
+    document.querySelectorAll('.line-spacer').forEach(s => {
+        s.style.height = spacing + 'px';
+    });
+}
+
 function generateWorksheet() {
     const difficulty = document.getElementById('difficulty').value;
     const numExercises = parseInt(document.getElementById('numExercises').value);
     const capitalizeFirst = document.getElementById('capitalizeFirst').value === 'true';
-    const fontSize = document.getElementById('fontSize').value;
     const linesCount = parseInt(document.getElementById('answerLines').value);
+    const fontSize = document.getElementById('fontSize').value;
+    const spacing = document.getElementById('lineHeight').value;
     
+    // Update badge op werkblad
+    const badge = document.getElementById('levelBadge');
+    if(difficulty === 'makkelijk') badge.innerText = "Niveau 1";
+    if(difficulty === 'gemiddeld') badge.innerText = "Niveau 2";
+    if(difficulty === 'moeilijk') badge.innerText = "Niveau 3";
+
     const sentences = sentenceDatabase[difficulty];
     const selected = shuffle([...sentences]).slice(0, numExercises);
 
-    let html = `
-        <div class="text-center mb-10 pb-8 border-b-2 border-slate-100">
-            <h1 class="text-3xl font-extrabold text-slate-900 mb-2">Zinnen maken</h1>
-            <p class="text-slate-500 text-lg">Zet de woorden in de juiste volgorde en schrijf de zin op de lijn.</p>
-        </div>
-        <div class="space-y-4">
-    `;
+    let html = '';
 
     selected.forEach((sentence, index) => {
         let clean = sentence.replace(/[.!?]$/, '');
         let originalWords = clean.split(' ');
-        
         let wordsWithMetadata = originalWords.map((w, i) => ({ text: w.toLowerCase(), isFirst: i === 0 }));
         let shuffledMetadata = shuffle([...wordsWithMetadata]);
 
@@ -154,30 +230,43 @@ function generateWorksheet() {
             return obj.text;
         });
 
+        let linesHtml = '';
+        for(let i=0; i<linesCount; i++) {
+            linesHtml += `
+                <div class="line-spacer" style="height: ${spacing}px;"></div>
+                <div class="border-b border-black border-dotted w-full" style="height: 1px;"></div>
+            `;
+        }
+
         html += `
-            <div class="exercise-container">
-                <div class="flex items-start gap-4 mb-4">
-                    <span class="bg-slate-900 text-white w-8 h-8 rounded-lg flex items-center justify-center font-bold flex-shrink-0 mt-1">${index + 1}</span>
-                    <div class="flex flex-wrap gap-2 p-4 bg-slate-50 rounded-xl border border-slate-200 w-full">
-                        ${finalWords.map(w => `<div class="word-box bg-white px-3 py-1 shadow-sm" style="font-size: ${fontSize}px">${w}</div>`).join('')}
+            <div class="woord-blok" style="font-size: ${fontSize}px;">
+                <div class="flex items-start gap-3">
+                    <span class="text-[10px] font-black bg-black text-white px-2 py-1 mt-1">${index + 1}</span>
+                    <div class="flex flex-wrap gap-2">
+                        ${finalWords.map(w => `<span class="border border-black px-2 py-1 bg-gray-50">${w}</span>`).join('')}
                     </div>
                 </div>
-                <div class="ml-12 space-y-4">
-                    ${Array(linesCount).fill('<div class="border-b-2 border-dotted border-slate-300 h-10 w-full"></div>').join('')}
+                <div class="ml-10">
+                    ${linesHtml}
                 </div>
             </div>
         `;
     });
 
-    html += `
-        </div>
-        <footer class="mt-12 pt-6 border-t border-slate-100 text-center text-slate-400 text-xs italic">
-            CC BY-NC-SA 4.0 NicoKlas
-        </footer>
-    `;
-
     document.getElementById('worksheetContent').innerHTML = html;
 }
+
+document.getElementById('fontSize').addEventListener('input', (e) => {
+    document.getElementById('sizeVal').innerText = e.target.value;
+    updateVisualsOnly();
+});
+
+document.getElementById('lineHeight').addEventListener('input', (e) => {
+    document.getElementById('heightVal').innerText = e.target.value;
+    updateVisualsOnly();
+});
+
+generateWorksheet();
 </script>
 </body>
 </html>
