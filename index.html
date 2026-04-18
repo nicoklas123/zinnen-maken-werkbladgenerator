@@ -10,7 +10,7 @@
 
         body {
             font-family: 'Verdana', sans-serif;
-            background-color: #fcfcfc;
+            background-color: #e5e2db; /* gevel licht greige */
             color: #1a1a1a;
             margin: 0;
         }
@@ -18,7 +18,7 @@
         .strak-input {
             border: 1px solid #000;
             border-radius: 0;
-            background-color: #fff;
+            background-color: #ffffff; /* Wit voor leesbaarheid */
             padding: 0.5rem;
             width: 100%;
             font-family: 'Verdana', sans-serif;
@@ -51,8 +51,14 @@
         }
 
         @media print {
-            .no-print { display: none !important; }
-            body { background: white !important; padding: 0 !important; }
+            .no-print { 
+                display: none !important; 
+            }
+            
+            body { 
+                background: white !important; 
+                padding: 0 !important; 
+            }
             
             #werkblad-container {
                 box-shadow: none !important;
@@ -62,17 +68,14 @@
                 padding: 1cm 1.5cm !important;
                 margin: 0 !important;
                 display: block !important;
+                background: white !important;
             }
 
-            #worksheetContent {
-                padding-top: 1.5cm;
+            main { 
+                background: white !important; 
+                padding: 0 !important; 
             }
-
-            header {
-                margin-top: 0 !important;
-            }
-
-            main { background: white !important; padding: 0 !important; }
+            
             @page { 
                 size: A4; 
                 margin: 1cm 0;
@@ -84,8 +87,8 @@
 
     <div class="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-4 gap-0 min-h-screen">
         
-        <aside class="md:col-span-1 no-print p-8 bg-[#fcfcfc] border-r border-gray-100 flex flex-col h-auto">
-            <h1 class="text-xs font-black uppercase tracking-[0.2em] mb-6 text-gray-400">CONFIGURATIE</h1>
+        <aside class="md:col-span-1 no-print p-8 bg-[#d1cdc3] border-r border-black flex flex-col h-auto">
+            <h1 class="text-xs font-black uppercase tracking-[0.2em] mb-6 text-gray-600">CONFIGURATIE</h1>
             
             <div class="space-y-6">
                 <div>
@@ -95,7 +98,7 @@
                         <option value="gemiddeld" selected>Gemiddeld</option>
                         <option value="moeilijk">Moeilijk</option>
                     </select>
-                    <div class="mt-2 text-[10px] text-gray-500 space-y-1">
+                    <div class="mt-2 text-[10px] text-gray-600 space-y-1">
                         <p>• Niveau 1: 3 tot 5 woorden</p>
                         <p>• Niveau 2: 6 tot 8 woorden</p>
                         <p>• Niveau 3: 9+ woorden</p>
@@ -149,11 +152,11 @@
             </div>
 
             <footer class="mt-12">
-                <p class="text-[10px] text-gray-400 uppercase tracking-widest">CC BY-NC-SA 4.0 NicoKlas</p>
+                <p class="text-[10px] text-gray-500 uppercase tracking-widest">CC BY-NC-SA 4.0 NicoKlas</p>
             </footer>
         </aside>
 
-        <main class="md:col-span-3 p-12 flex justify-center bg-gray-50 overflow-y-auto">
+        <main class="md:col-span-3 p-12 flex justify-center overflow-y-auto">
             <div id="werkblad-container">
                 <header class="flex justify-between items-end border-b-2 border-black pb-4 mb-8">
                     <div class="space-y-1">
@@ -178,7 +181,7 @@
 const sentenceDatabase = {
     makkelijk: ["de kat slaapt op de bank.", "ik eet een appel.", "de zon schijnt helder.", "mama kookt het eten.", "we gaan naar school.", "de hond rent snel.", "papa leest een boek.", "oma bakt koekjes.", "de bloemen zijn mooi.", "het regent buiten.", "ik drink melk.", "de vogel zingt luid.", "we spelen in de tuin.", "de auto is rood.", "opa wandelt in het park.", "de vis zwemt rond.", "ik teken een huis.", "de bal is groot.", "we eten samen.", "de maan schijnt 's nachts.", "ik poets mijn tanden.", "de trein rijdt snel.", "we kijken televisie.", "de taart smaakt lekker.", "ik ga naar bed.", "de fiets staat buiten.", "we zingen een liedje.", "de klas is stil.", "ik help mama.", "de deur gaat open.", "de baby huilt hard.", "ik was mijn handen.", "de koe geeft melk.", "we eten een boterham.", "de lamp brandt fel.", "ik kam mijn haar.", "de boot vaart weg.", "we lopen naar huis.", "de klok tikt luid.", "ik vind een steen.", "de muis is klein.", "we drinken warme thee.", "de sneeuw is wit.", "ik draag een jas.", "de wind waait hard.", "we bouwen een toren.", "de spin maakt een web.", "ik hoor een geluid.", "de appel valt neer.", "we zoeken een schat."],
     gemiddeld: ["mijn zusje speelt graag met haar poppen.", "de leraar vertelt een spannend verhaal.", "we maken samen een mooie tekening.", "de postbode brengt elke dag brieven.", "ik help opa in zijn grote tuin.", "de kinderen rennen vrolijk naar buiten.", "mama koopt verse groenten op de markt.", "we bouwen een hoog kasteel van zand.", "de brandweer redt de kat uit de boom.", "ik leer nieuwe woorden op school.", "de bakker maakt elke dag vers brood.", "we kijken naar de sterren in de lucht.", "papa repareert de kapotte fiets snel.", "de bibliotheek heeft veel interessante boeken.", "ik schrijf een brief aan mijn oma.", "de dierentuin heeft wilde dieren uit afrika.", "we planten bloemen in de schooltuin samen.", "de dokter helpt zieke mensen beter worden.", "ik spaar geld voor een nieuwe voetbal.", "de muziekleraar speelt piano in de klas.", "we maken een puzzel van duizend stukjes.", "papa kookt vandaag een heerlijke soep.", "de politieagent regelt het drukke verkeer.", "ik lees elke avond voor het slapen.", "de tuinman plant nieuwe bomen in het park.", "we bezoeken het museum met de hele klas.", "mama naait een mooie jurk voor mij.", "de slager verkoopt vers vlees aan klanten.", "ik voer de eenden brood bij de vijver.", "de schilder maakt het huis weer helemaal wit.", "de kapster knipt mijn haar heel voorzichtig.", "we verzamelen mooie schelpen op het strand.", "ik bouw een groot fort van kussens.", "de vuilnisman haalt de vuilniszakken op.", "we kopen nieuwe schoenen in de winkel.", "de tandarts controleert mijn tanden zorgvuldig.", "ik maak mijn huiswerk aan de keukentafel.", "de boer melkt zijn koeien elke ochtend.", "we spelen verstoppertje in het donkere bos.", "mama wast de vuile kleren in de machine.", "de postbode fietst door de hele buurt.", "ik geef water aan de dorstige planten.", "we eten warme pannenkoeken met stroop erop.", "de kat vangt een muis in de schuur.", "ik poets de ramen tot ze helder zijn.", "we luisteren naar mooie muziek op de radio.", "papa hangt de was buiten aan de lijn.", "de hond blaft luid naar de vreemde man.", "ik pak mijn warme trui uit de kast.", "we rijden met de bus naar de stad."],
-    moeilijk: ["tijdens de vakantie bezochten we het prachtige kasteel.", "de wetenschapper ontdekte een nieuwe planeet in het zonnestelsel.", "mijn broer verzamelt postzegels uit verschillende landen wereldwijd.", "de archeologen vonden oude schatten in de mysterieuze piramide.", "we organiseren een groot feest voor opa's tachtigste verjaardag.", "de piloot vloog voorzichtig door de gevaarlijke storm heen.", "ik bereid me voor op de belangrijke wiskundetoets morgen.", "de fotografe maakte prachtige foto's van wilde dieren.", "we plantten verschillende groenten in onze eigen moestuin thuis.", "de dirigent leidde het orkest tijdens het klassieke concert.", "mijn tante werkt als verpleegster in het grote ziekenhuis.", "de computerprogrammeur ontwikkelt nieuwe spellen voor kinderen dagelijks.", "we wandelden door het dichte bos naar de waterval.", "de journalist schreef een artikel over milieuvervuiling vandaag.", "ik leerde gitaar spelen van mijn muziekleraar op school.", "de architect ontwierp een modern gebouw voor de stad.", "we bezoeken de tentoonstelling over dinosaurussen in het museum.", "de kok bereidde een heerlijk driegangenmenu voor de gasten.", "mijn vader repareert oude auto's in zijn werkplaats.", "de meteoroloog voorspelt regen voor het hele weekend helaas.", "we organiseren een sponsorloop voor het goede doel samen.", "de tandarts controleert twee keer per jaar mijn tanden.", "ik studeer hard voor mijn eindexamen nederlandse taal.", "de tuinarchitect ontwierp een prachtige tuin met veel bloemen.", "we maakten een documentaire over het leven van bijen.", "de elektricien installeerde nieuwe lampen in ons hele huis.", "mijn oma vertelt altijd interessante verhalen over vroeger.", "de dierenarts verzorgt zieke huisdieren in zijn praktijk.", "we experimenteerden met verschillende kleuren verf tijdens kunstles.", "de historicus bestudeerde oude documenten in het stadsarchief.", "de brandweercommandant coördineerde de reddingsoperatie bij het ongeval.", "ik verzamel verschillende mineralen en edelstenen uit de hele wereld.", "de biologieleraar toonde ons interessante experimenten met planten en dieren.", "we organiseerden een benefietconcert voor kinderen in ontwikkelingslanden overzee.", "de scheepskapitein navigeerde het grote vrachtschip door de stormachtige oceaan.", "mijn neef studeer geneeskunde aan de universiteit in amsterdam.", "de restaurateur herstelde het eeuwenoude schilderij met grote zorgvuldigheid.", "we onderzochten de effecten van klimaatverandering op de poolgebieden.", "de ambassadeur onderhandelde over belangrijke handelsakkoorden tussen beide landen.", "ik documenteerde de migratie van trekvogels gedurende het hele seizoen.", "de paleontoloog ontdekte fossielen van uitgestorven diersoorten in de rotsen.", "we ontwikkelden een innovatieve app voor het leren van vreemde talen.", "de choreograaf creëerde een prachtige dans voor het internationale ballet."]
+    moeilijk: ["tijdens de vakantie bezochten we het prachtige kasteel.", "de wetenschapper ontdekte een nieuwe planeet in het zonnestelsel.", "mijn broer verzamelt postzegels uit verschillende landen wereldwijd.", "de archeologen vonden oude schatten in de mysterieuze piramide.", "we organiseren een groot feest voor opa's tachtigste verjaardag.", "de piloot vloog voorzichtig door de gevaarlijke storm heen.", "ik bereid me voor op de belangrijke wiskundetoets morgen.", "de fotografe maakte prachtige foto's van wilde dieren.", "we plantten verschillende groenten in onze eigen moestuin thuis.", "de dirigent leidde het orkest tijdens het klassieke concert.", "mijn tante werkt als verpleegster in het grote ziekenhuis.", "de computerprogrammeur ontwikkelt nieuwe spellen voor kinderen dagelijks.", "we wandelden door het dichte bos naar de waterval.", "de journalist schreef een artikel over milieuvervuiling vandaag.", "ik leerde gitaar spelen van mijn muziekleraar op school.", "de architect ontwierp een modern gebouw voor de stad.", "we bezoeken de tentoonstelling over dinosaurussen in het museum.", "de kok bereidde een heerlijk driegangenmenu voor de gasten.", "mijn vader repareert oude auto's in zijn werkplaats.", "de meteoroloog voorspelt regen voor het hele weekend helaas.", "we organiseren een sponsorloop voor het goede doel samen.", "de tandarts controleert twee keer per jaar mijn tanden.", "ik studeer hard voor mijn eindexamen nederlandse taal.", "de tuinarchitect ontwierp een prachtige tuin met veel bloemen.", "we maakten een documentaire over het leven van bijen.", "de elektricien installeerde nieuwe lampen in ons hele huis.", "mijn oma vertelt altijd interessante verhalen over vroeger.", "de dierenarts verzorgt zieke huisdieren in zijn praktijk.", "we experimenteerden met verschillende kleuren verf tijdens kunstles.", "de historicus bestudeerde oude documenten in het stadsarchief.", "de brandweercommandant coördineerde de reddingsoperatie bij het ongeval.", "ik verzamel verschillende mineralen en edelstenen uit de hele wereld.", "de biologieleraar toonde ons interessante experimenten met planten en dieren.", "we organiseerden een benefietconcert voor kinderen in ontwikkelingslanden overzee.", "de scheepskapitein navigeerde het grote vrachtschip door de stormachtige oceaan.", "mijn neef studeert geneeskunde aan de universiteit in amsterdam.", "de restaurateur herstelde het eeuwenoude schilderij met grote zorgvuldigheid.", "we onderzochten de effecten van klimaatverandering op de poolgebieden.", "de ambassadeur onderhandelde over belangrijke handelsakkoorden tussen beide landen.", "ik documenteerde de migratie van trekvogels gedurende het hele seizoen.", "de paleontoloog ontdekte fossielen van uitgestorven diersoorten in de rotsen.", "we ontwikkelden een innovatieve app voor het leren van vreemde talen.", "de choreograaf creëerde een prachtige dans voor het internationale ballet."]
 };
 
 function shuffle(array) {
@@ -188,14 +191,8 @@ function shuffle(array) {
 function updateVisualsOnly() {
     const fontSize = document.getElementById('fontSize').value;
     const spacing = document.getElementById('lineHeight').value;
-    
-    document.querySelectorAll('.woord-blok').forEach(b => {
-        b.style.fontSize = fontSize + 'px';
-    });
-    
-    document.querySelectorAll('.line-spacer').forEach(s => {
-        s.style.height = spacing + 'px';
-    });
+    document.querySelectorAll('.woord-blok').forEach(b => { b.style.fontSize = fontSize + 'px'; });
+    document.querySelectorAll('.line-spacer').forEach(s => { s.style.height = spacing + 'px'; });
 }
 
 function generateWorksheet() {
@@ -206,7 +203,6 @@ function generateWorksheet() {
     const fontSize = document.getElementById('fontSize').value;
     const spacing = document.getElementById('lineHeight').value;
     
-    // Update badge op werkblad
     const badge = document.getElementById('levelBadge');
     if(difficulty === 'makkelijk') badge.innerText = "Niveau 1";
     if(difficulty === 'gemiddeld') badge.innerText = "Niveau 2";
